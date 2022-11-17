@@ -1,0 +1,43 @@
+#header {
+    background-color: rgba(105, 218, 105, 0.603);
+}
+
+#branding h1{
+    
+    color: white;
+
+}
+
+
+#branding h1 a:visited{
+    
+    color: white;
+
+}
+
+.module caption {
+    background-color: rgba(105, 218, 105, 0.603);
+
+}
+
+a:link, a:visited{
+    color: rgb(179, 255, 236);
+}
+
+
+div.breadcrumbs {
+    background-color: rgba(105, 218, 105, 0.603);
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button{
+    background-color: rgba(105, 218, 105, 0.603);
+}
+
+
+.module h2, .module caption, .inline-group h2 {
+    background-color: rgba(105, 218, 105, 0.603);
+}
+
+.button.default, input[type=submit].default, .submit-row input.default{
+    background-color: rgba(105, 218, 105, 0.603);
+}

@@ -1,0 +1,218 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load poster_tags %}
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="stylesheet"  type="text/css" href="{% static 'poster/css/styleses.css' %}">
+    <link rel="shortcut icon" href="{% static 'poster/images/logo.webp' %}" type="image/x-icon">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    {% block mainmenu %}
+    <div class="wrapper">
+        <header class="header">
+            <div class="header__wrapper container">
+                <div class="header__logo">
+                    <a class="header__logo-link" href="{% url 'home' %}">
+                        <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+                        <svg
+                           width="69mm"
+                           height="15mm"
+                           viewBox="0 0 69 15"
+                           version="1.1"
+                           id="svg5"
+                           inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+                           sodipodi:docname="лого.svg"
+                           xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                           xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                           xmlns="http://www.w3.org/2000/svg"
+                           xmlns:svg="http://www.w3.org/2000/svg">
+                          <sodipodi:namedview
+                             id="namedview7"
+                             pagecolor="#ffffff"
+                             bordercolor="#666666"
+                             borderopacity="1.0"
+                             inkscape:pageshadow="2"
+                             inkscape:pageopacity="0.0"
+                             inkscape:pagecheckerboard="0"
+                             inkscape:document-units="mm"
+                             showgrid="false"
+                             inkscape:zoom="1.0985947"
+                             inkscape:cx="-22.756344"
+                             inkscape:cy="158.83928"
+                             inkscape:window-width="1920"
+                             inkscape:window-height="1057"
+                             inkscape:window-x="1912"
+                             inkscape:window-y="-8"
+                             inkscape:window-maximized="1"
+                             inkscape:current-layer="layer1"
+                             units="mm"
+                             width="75mm" />
+                          <defs
+                             id="defs2" />
+                          <g
+                             inkscape:label="Слой 1"
+                             inkscape:groupmode="layer"
+                             id="layer1">
+                            <text
+                               xml:space="preserve"
+                               style="font-style:normal;font-weight:normal;font-size:15.245px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.381125"
+                               x="1.4244885"
+                               y="14.196067"
+                               id="text2762"
+                               transform="scale(1.096914,0.91164849)"><tspan
+                                 sodipodi:role="line"
+                                 id="tspan2760"
+                                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.245px;font-family:Broadway;-inkscape-font-specification:'Broadway, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#69da69;fill-opacity:1;stroke-width:0.381125"
+                                 x="1.4244885"
+                                 y="14.196067">AFISHA</tspan></text>
+                          </g>
+                        </svg>                        
+                    </a>
+                </div>
+                <div class="header__burger burger">
+                    <span class="burger__lines"></span>
+                </div>
+                <nav class="header__nav nav">
+                    <ul class="nav__list">
+                        {% for m in menu %}
+                        <li class="nav__list-link"><a href="{% url m.url_name %}">{{m.title}}</a></li>
+                        {% endfor %}
+                        {% if request.user.is_authenticated %}
+                        <li class="nav__list-link">{{user.username}} | <a href="{% url 'logout' %}">Exit</a></li>
+                        {% else %}
+                        <li class="nav__list-link"><a href="{% url 'register' %}">Register</a></li> <p class="nav__list-link">|</p> <li class="nav__list-link"><a href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </header>
+    {% endblock mainmenu %}
+        <main class="main">
+            <div class="main__wrapper container">
+                <aside>
+                    <div class="categories">
+                        <h1 class="main__title">{{afisha}}</h1>
+                        {% if cat_selected == 0 %}
+                            <li class="selected">Все категории</li>
+                        {% else %}
+                            <li class="selected"><a href="{% url 'home' %}">Все категории</a></li>
+                        {% endif %}
+            
+                    {% show_categories cat_selected=cat_selected %}
+
+            
+                    </div>
+                </aside>
+            {% block content %}
+            {% endblock content %}
+            {% if page_obj.has_other_pages %}
+                <nav class="list">
+                    <ul class="list__items">
+                        {% if page_obj.has_previous %}
+                        <li>
+                            <a href="?page={{ page_obj.previous_page_number }}">↑</a>
+                        </li>
+                        {% endif %}
+                        
+
+                        {% for p in page_obj.paginator.page_range %}
+                        {% if page_obj.number == p %}
+                        <li class="list__items-selected">{{ p }}</li>
+                        {% elif  p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+
+                        <li class="list__items-paragraph">
+                            <a class="list__items-links" href="?page={{ p }}">{{ p }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <li>
+                            <a href="?page={{ page_obj.next_page_number }}">↓</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+            </div>
+        </main>
+    {% block footer %}
+        <footer class="footer">
+            <div class="footer__wrapper container">
+                <div class="footer__media media">
+                    <a class="media__link" href="#"><img class="image" src="{% static 'poster/images/vk.svg' %}" alt="vk.com"></a>
+                    <a class="media__link" href="#"><img class="image" src="{% static 'poster/images/intsa.svg' %}" alt="telegram.com"></a>
+                    <a class="media__link" href="#"><img class="image" src="{% static 'poster/images/telega.svg' %}" alt="instagram.com"></a>
+                </div>
+                <div class="footer__info">
+                    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                    <svg
+                       width="48mm"
+                       height="12mm"
+                       viewBox="0 0 48 12"
+                       version="1.1"
+                       id="svg5"
+                       inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+                       sodipodi:docname="лого.svg"
+                       xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                       xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                       xmlns="http://www.w3.org/2000/svg"
+                       xmlns:svg="http://www.w3.org/2000/svg">
+                      <sodipodi:namedview
+                         id="namedview7"
+                         pagecolor="#ffffff"
+                         bordercolor="#666666"
+                         borderopacity="1.0"
+                         inkscape:pageshadow="2"
+                         inkscape:pageopacity="0.0"
+                         inkscape:pagecheckerboard="0"
+                         inkscape:document-units="mm"
+                         showgrid="false"
+                         inkscape:zoom="1.0985947"
+                         inkscape:cx="-22.756344"
+                         inkscape:cy="158.83928"
+                         inkscape:window-width="1920"
+                         inkscape:window-height="1057"
+                         inkscape:window-x="1912"
+                         inkscape:window-y="-8"
+                         inkscape:window-maximized="1"
+                         inkscape:current-layer="layer1"
+                         units="mm"
+                         width="75mm" />
+                      <defs
+                         id="defs2" />
+                      <g
+                         inkscape:label="Слой 1"
+                         inkscape:groupmode="layer"
+                         id="layer1">
+                        <text
+                           xml:space="preserve"
+                           style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+                           x="2.7247651"
+                           y="9.8772907"
+                           id="text2762"><tspan
+                             sodipodi:role="line"
+                             id="tspan2760"
+                             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:Broadway;-inkscape-font-specification:'Broadway, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#69da69;fill-opacity:1;stroke-width:0.264583"
+                             x="2.7247651"
+                             y="9.8772907">AFISHA</tspan></text>
+                      </g>
+                    </svg>
+                    <p class="footer__info-copy">© 2012-2022 aFISHA. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    {% endblock footer %}
+    <script type="text/javascript" src="{% static 'poster/js/scripts.js' %}"></script>
+</body>
+</html>

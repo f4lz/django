@@ -1,0 +1,26 @@
+{% extends 'poster/base.html' %}
+{% load static %}
+{% load poster_tags %}
+
+
+{% block content %}
+
+    <div class="products">
+    
+        {% for p in posts %}
+        <div class="products__item">
+            {% if p.photo %}
+                <a href="{% url 'post' p.pk %}"><img style="border-radius:2%;" src="{{p.photo.url}}" alt="{{p.title}}"></a>
+            {% endif %}
+            <h2 class="products__item-title" >{{p.title}}</h2>
+            <p style="font-weight: 500; font-size: 16px;" class="products__item-content" >{{p.cat.name}}</p>
+        </div>
+  
+
+        {% endfor %}
+
+    </div>
+ 
+
+{% endblock content %}
+

@@ -1,0 +1,28 @@
+$f-heading : 30px;
+
+* {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.kino {
+    gap: 30px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    &__info {
+        padding-left: 80px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 5px;
+        justify-content: center;
+    }
+    
+    &__description {
+        
+        
+        font-size: $f-heading/1.1;
+    }
+}
